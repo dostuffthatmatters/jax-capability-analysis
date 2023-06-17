@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "master-seminar-jax-demo"
+version = "0.1.0"
+description = ""
+authors = ["Moritz Makowski <moritz.makowski@tum.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+numpy = "^1.24.3"
+click = "^8.1.3"
+pydantic = "^1.10.9"
+setuptools = "^67.8.0"
+comet-ml = "^3.33.4"
+datasets = "^2.12.0"
+pillow = "^9.5.0"
+flax = "0.6.10"
+jax = {version = "0.4.10", extras = ["cpu"]}
+jaxlib = { markers = "(sys_platform == 'linux') and (platform_machine == 'x86_64')", url = "https://storage.googleapis.com/jax-releases/cuda12/jaxlib-0.4.10+cuda12.cudnn88-cp311-cp311-manylinux2014_x86_64.whl"}
+torch = { markers = "(sys_platform == 'linux') and (platform_machine == 'x86_64')", url = "https://download.pytorch.org/whl/nightly/cu121/torch-2.1.0.dev20230614%2Bcu121-cp311-cp311-linux_x86_64.whl" }
+torchvision = { markers = "(sys_platform == 'linux') and (platform_machine == 'x86_64')", url="https://download.pytorch.org/whl/nightly/cu121/torchvision-0.16.0.dev20230614%2Bcu121-cp311-cp311-linux_x86_64.whl"}
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.pytorch.dependencies]
+mypy = "^1.3.0"
+black = "^23.3.0"
+pytest = "^7.3.1"
+types-tqdm = "^4.65.0.1"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.3.0"
+black = "^23.3.0"
+pytest = "^7.3.1"
+types-tqdm = "^4.65.0.1"
+
+# POETRY SETTINGS
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "PyTorch CUDA"
+url = "https://download.pytorch.org/whl/nightly/cu121"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "Jax CUDA"
+url = "https://storage.googleapis.com/jax-releases/jax_cuda_releases.html"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+strict = true
+implicit_reexport = true
+no_warn_unused_ignores = true
+plugins = ["pydantic.mypy"]
+exclude = ['.venv']
+
+[[tool.mypy.overrides]]
+module = [
+    "comet_ml",
+    "datasets",
+    "optax",
+    "flax.*",
+    "jax.*",
+    "torchvision",
+    "torchvision.*",
+    "scipy",
+    "scipy.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning"
+]
