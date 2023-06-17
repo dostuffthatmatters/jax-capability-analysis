@@ -49,3 +49,93 @@ python main.py xla jax --matrix-size 1000
 ## 🐥 Improvements for the Development Experience
 
 TODO: add improvements here
+
+## Raw Output from Running the Experiments
+
+### XLA
+
+**`./cli.sh xla numpy`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+**`./cli.sh xla jax`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+**`./cli.sh xla pytorch`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+### JIT
+
+**`./cli.sh jit numpy`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+### SciPy
+
+**`./cli.sh scipy numpy`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+**`./cli.sh scipy jax`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+### Autograd
+
+**`./cli.sh autograd pytorch`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+**`./cli.sh autograd jax`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+### MNIST
+
+**`./cli.sh mnist pytorch`:**
+
+```
+TODO: add output here
+```
+
+<br/>
+
+**`./cli.sh mnist flax`:**
+
+```
+TODO: add output here
+```
