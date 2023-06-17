@@ -124,7 +124,7 @@ def validate(
     )
 
 
-# TODO: add logging
+# TODO: add comet ml integration
 
 
 def run_training(
@@ -187,6 +187,4 @@ def run_training(
     # if args.save_model:
     #     torch.save(model.state_dict(), "mnist_cnn.pt")
 
-    # TODO: add early stopping based on accuracy
-    # TODO: add learning rate stepping
     # TODO: export model

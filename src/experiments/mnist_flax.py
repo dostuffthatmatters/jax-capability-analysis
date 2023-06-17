@@ -326,5 +326,4 @@ def run_training(
             epoch_index=epoch_index,
         )
 
-    # TODO: add early stopping based on accuracy
     # TODO: export model

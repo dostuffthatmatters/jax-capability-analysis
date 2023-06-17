@@ -10,10 +10,6 @@ from src import utils, experiments
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 
-# TODO: when using jax, assert cuda backend
-# TODO: when using pytorch, assert cuda backend
-
-
 @click.command(help="XLA demo scripts")
 @click.argument("mode", type=click.Choice(["numpy", "pytorch", "jax"]), required=True)
 @click.option("--matrix-size", default=5000)
@@ -135,6 +131,7 @@ def mnist(
     elif mode == "pytorch":
         experiments.mnist_pytorch.run_training(metadata, experiment)
     elif mode == "preprocess-images":
+        # TODO: move this to utils
         training_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="training")
         validation_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="validation")
 
