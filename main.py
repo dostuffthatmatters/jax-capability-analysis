@@ -7,6 +7,7 @@ import numpy
 
 from src import utils
 from src import xla_numpy, xla_pytorch, xla_jax
+from src import jit_jax
 from src import scipy_numpy, scipy_jax
 from src import autograd_pytorch, autograd_jax
 from src import mnist_flax, mnist_pytorch
@@ -31,6 +32,11 @@ def xla(
         xla_pytorch.run(matrix_size)
     elif mode == "jax":
         xla_jax.run(matrix_size)
+
+
+@click.command(help="JIT demo scripts")
+def jit() -> None:
+    jit_jax.run()
 
 
 @click.command(help="SciPy demo scripts")
@@ -139,6 +145,7 @@ def cli() -> None:
 
 
 cli.add_command(xla)
+cli.add_command(jit)
 cli.add_command(scipy)
 cli.add_command(autograd)
 cli.add_command(mnist)

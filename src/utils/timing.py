@@ -4,7 +4,7 @@ from typing import Generator
 
 
 @contextlib.contextmanager
-def timed_section(label: str) -> Generator[None, None, None]:
+def timed_section(label: str, indent: int = 0) -> Generator[None, None, None]:
     """Context manager to time a section of code.
 
     Usage:
@@ -20,4 +20,4 @@ def timed_section(label: str) -> Generator[None, None, None]:
     yield
 
     t2 = time.time()
-    print(f"Time to {label}: {t2 - t1:.2f}s")
+    print((" " * indent) + f"Time to {label}: {t2 - t1:.6f}s")
