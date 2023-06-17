@@ -13,6 +13,9 @@ import torch.utils.data
 from src import utils
 
 
+# TODO: use same model as flax
+
+
 class CNN(nn.Module):
     def __init__(self) -> None:
         super(CNN, self).__init__()

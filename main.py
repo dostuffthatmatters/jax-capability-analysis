@@ -5,12 +5,7 @@ import comet_ml
 import dotenv
 import numpy
 
-from src import utils
-from src import xla_numpy, xla_pytorch, xla_jax
-from src import jit_jax
-from src import scipy_numpy, scipy_jax
-from src import autograd_pytorch, autograd_jax
-from src import mnist_flax, mnist_pytorch
+from src import utils, experiments
 
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
@@ -27,16 +22,16 @@ def xla(
     matrix_size: int,
 ) -> None:
     if mode == "numpy":
-        xla_numpy.run(matrix_size)
+        experiments.xla_numpy.run(matrix_size)
     elif mode == "pytorch":
-        xla_pytorch.run(matrix_size)
+        experiments.xla_pytorch.run(matrix_size)
     elif mode == "jax":
-        xla_jax.run(matrix_size)
+        experiments.xla_jax.run(matrix_size)
 
 
 @click.command(help="JIT demo scripts")
 def jit() -> None:
-    jit_jax.run()
+    experiments.jit_jax.run()
 
 
 @click.command(help="SciPy demo scripts")
@@ -61,14 +56,14 @@ def scipy(
     # expect: a = (b - offset) / slope
 
     if mode == "numpy":
-        scipy_numpy.run(
+        experiments.scipy_numpy.run(
             data_from_sensor_a,
             data_from_sensor_b,
             actual_slope,
             actual_offset,
         )
     elif mode == "jax":
-        scipy_jax.run(
+        experiments.scipy_jax.run(
             data_from_sensor_a,
             data_from_sensor_b,
             actual_slope,
@@ -82,9 +77,9 @@ def autograd(
     mode: Literal["pytorch", "jax"],
 ) -> None:
     if mode == "pytorch":
-        autograd_pytorch.run()
+        experiments.autograd_pytorch.run()
     elif mode == "jax":
-        autograd_jax.run()
+        experiments.autograd_jax.run()
 
 
 @click.command(help="MNIST training and evaluation loop")
@@ -134,9 +129,9 @@ def mnist(
 
     print(f"running {mode} training and evaluation loop")
     if mode == "flax":
-        mnist_flax.run_training(metadata, experiment)
+        experiments.mnist_flax.run_training(metadata, experiment)
     elif mode == "pytorch":
-        mnist_pytorch.run_training(metadata, experiment)
+        experiments.mnist_pytorch.run_training(metadata, experiment)
 
 
 @click.group()

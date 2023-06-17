@@ -26,23 +26,23 @@ def run() -> None:
 
     x1 = jax.numpy.array(3.0, dtype=numpy.float32)
     y1 = f(x1)
-    dy1 = grad_f_typed(x1)
-    assert dy1.shape == x1.shape
+    dxdy1 = grad_f_typed(x1)
+    assert dxdy1.shape == x1.shape
 
     print(f"x1 = {x1}")
     print(f"f(x1) = {y1}")
-    print(f"grad_f(x1) = {dy1}")
+    print(f"grad_f(x1) = {dxdy1}")
 
     # compute function and gradient for a vector
 
     x2 = jax.numpy.linspace(0, 4 * numpy.pi, 20, dtype=numpy.float32)
     y2 = f(x2)
-    dy2 = jax.vmap(grad_f_typed)(x2)
-    assert dy2.shape == x2.shape
+    dxdy2 = jax.vmap(grad_f_typed)(x2)
+    assert dxdy2.shape == x2.shape
 
     print(f"x2 = {x2}")
     print(f"f(x2) = {y2}")
-    print(f"grad_f(x2) = {dy2}")
+    print(f"grad_f(x2) = {dxdy2}")
 
     # time the computation of the gradient on the GPU
 
@@ -52,8 +52,8 @@ def run() -> None:
         "perform gradient computation on GPU (1000 items, 10 times)"
     ):
         for _ in range(10):
-            dy3 = jax.vmap(grad_f_typed)(x3)
-            assert dy3.shape == x3.shape
+            dxdy3 = jax.vmap(grad_f_typed)(x3)
+            assert dxdy3.shape == x3.shape
 
     x3_jit = jax.numpy.linspace(0, 10 * numpy.pi, 1000, dtype=numpy.float32)
 
@@ -61,8 +61,8 @@ def run() -> None:
         "perform gradient computation on GPU with JIT (1000 items, 10 times)"
     ):
         for _ in range(10):
-            dy3_jit = jax.vmap(grad_f_typed_jit)(x3_jit)
-            assert dy3_jit.shape == x3_jit.shape
+            dxdy3_jit = jax.vmap(grad_f_typed_jit)(x3_jit)
+            assert dxdy3_jit.shape == x3_jit.shape
 
     # time the computation of the gradient on the CPU
 
@@ -73,8 +73,8 @@ def run() -> None:
         "perform gradient computation on CPU (1000 items, 10 times)"
     ):
         for _ in range(10):
-            dy4 = jax.vmap(grad_f_typed)(x4)
-            assert dy4.shape == x4.shape
+            dxdy4 = jax.vmap(grad_f_typed)(x4)
+            assert dxdy4.shape == x4.shape
 
     x4_jit = jax.numpy.linspace(0, 10 * numpy.pi, 1000, dtype=numpy.float32)
 
@@ -82,5 +82,5 @@ def run() -> None:
         "perform gradient computation on CPU with JIT (1000 items, 10 times)"
     ):
         for _ in range(10):
-            dy4 = jax.vmap(grad_f_typed_jit)(x4_jit)
-            assert dy4.shape == x4_jit.shape
+            dxdy4 = jax.vmap(grad_f_typed_jit)(x4_jit)
+            assert dxdy4.shape == x4_jit.shape

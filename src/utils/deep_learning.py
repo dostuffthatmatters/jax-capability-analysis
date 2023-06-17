@@ -11,7 +11,9 @@ import jax.random
 import torchvision.transforms
 import torch.utils.data
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 DATA_CACHE_DIR = os.path.join(PROJECT_DIR, "data")
 IMAGE_MEAN = 0.1307
 IMAGE_STD = 0.3081

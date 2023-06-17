@@ -9,7 +9,7 @@ def run() -> None:
 
     # set up gpu device
 
-    device = torch.device("cuda:0")
+    device = torch.device("cuda")
 
     # set up dummy function and gradient function
 
