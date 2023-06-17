@@ -61,8 +61,4 @@ def run(matrix_size: int) -> None:
 
     cid = jax.numpy.matmul(c, cinv)
     print("cid = ", utils.linalg.coarsen(cid))
-    utils.assertions.assert_similar_result(
-        "mean of inverse * matrix",
-        matrix_size,
-        cid.sum(),
-    )
+    assert jax.numpy.allclose(cid, jax.numpy.eye(matrix_size)), "c * cinv != identity"

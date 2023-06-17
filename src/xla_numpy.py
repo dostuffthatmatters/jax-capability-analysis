@@ -1,4 +1,6 @@
 import numpy
+import numpy.linalg
+import numpy.random
 from src import utils
 
 
@@ -57,8 +59,4 @@ def run(matrix_size: int) -> None:
 
     cid = numpy.matmul(c, cinv)
     print("cid = ", utils.linalg.coarsen(cid))
-    utils.assertions.assert_similar_result(
-        "mean of inverse * matrix",
-        matrix_size,
-        cid.sum(),
-    )
+    assert numpy.allclose(cid, numpy.eye(matrix_size)), "c * cinv != identity"
