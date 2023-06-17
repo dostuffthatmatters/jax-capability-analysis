@@ -83,7 +83,9 @@ def autograd(
 
 
 @click.command(help="MNIST training and evaluation loop")
-@click.argument("mode", type=click.Choice(["flax", "pytorch"]), required=True)
+@click.argument(
+    "mode", type=click.Choice(["flax", "pytorch", "preprocess-images"]), required=True
+)
 @click.option("--dry-run", is_flag=True, default=False)
 @click.option("--num-epochs", default=20)
 @click.option("--batch-size-training", default=128)
@@ -91,7 +93,7 @@ def autograd(
 @click.option("--learning-rate", default=0.01)
 @click.option("--momentum", default=0.9)
 def mnist(
-    mode: Literal["flax", "pytorch"],
+    mode: Literal["flax", "pytorch", "preprocess-images"],
     dry_run: bool,
     num_epochs: int,
     batch_size_training: int,
@@ -132,6 +134,17 @@ def mnist(
         experiments.mnist_flax.run_training(metadata, experiment)
     elif mode == "pytorch":
         experiments.mnist_pytorch.run_training(metadata, experiment)
+    elif mode == "preprocess-images":
+        training_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="training")
+        validation_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="validation")
+
+        assert training_dataset.images.shape == (60000, 28, 28, 1)
+        assert validation_dataset.images.shape == (10000, 28, 28, 1)
+
+        overall_mean = training_dataset.images.flatten().mean()
+        overall_std = training_dataset.images.flatten().std()
+        print(f"Overall mean: {overall_mean:.6f}")
+        print(f"Overall std: {overall_std:.6f}")
 
 
 @click.group()

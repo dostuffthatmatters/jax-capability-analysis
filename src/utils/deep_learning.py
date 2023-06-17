@@ -15,12 +15,12 @@ PROJECT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
 DATA_CACHE_DIR = os.path.join(PROJECT_DIR, "data")
-IMAGE_MEAN = 0.1307
-IMAGE_STD = 0.3081
+IMAGE_MEAN = 0.130660
+IMAGE_STD = 0.308108
 
 
 class Metadata(pydantic.BaseModel):
-    mode: Literal["flax", "pytorch"]
+    mode: Literal["flax", "pytorch", "preprocess-images"]
     dry_run: bool = pydantic.Field(..., description="only run a few samples")
     num_epochs: int = pydantic.Field(..., ge=1, le=10000)
     batch_size_training: int = pydantic.Field(..., ge=1, le=1024)
