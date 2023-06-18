@@ -15,42 +15,38 @@ def run(
 ) -> None:
     # define the loss function
 
-    def rmse_with_calibration(x: tuple[float, float]) -> float:
-        estimated_slope, estimated_offset = x
-        return float(
-            numpy.sqrt(
-                numpy.mean(
-                    numpy.power(
-                        data_from_sensor_a
-                        - (estimated_slope * data_from_sensor_b + estimated_offset),
-                        2,
-                    )
+    def rmse_with_calibration(x: numpy.ndarray[float, Any]) -> Any:
+        return numpy.sqrt(
+            numpy.mean(
+                numpy.power(
+                    data_from_sensor_a - ((data_from_sensor_b - x[1]) / x[0]),
+                    2,
                 )
             )
         )
 
     # running the rmse calculation 10 times
 
-    for i in range(10):
-        with utils.timing.timed_section(f"rmse_with_calibration run #{i}"):
-            rmse_with_calibration((9, 7))
+    for i in range(5):
+        with utils.timing.timed_section(f"run rmse_with_calibration (iteration #{i})"):
+            rmse_with_calibration(numpy.array([9.0, 7.0]))
 
     # minimize the rmse with respect to the slope and offset
 
-    initial_guess = (1, 0)  # (slope, offset)
+    initial_guess = numpy.array([1.0, 0.0])  # (slope, offset)
     optimization_result = scipy.optimize.minimize(
         rmse_with_calibration,
         x0=initial_guess,
+        tol=0.0001,
         method="BFGS",
+        options={"disp": True},
     )
     final_guess = optimization_result.x
     print("optimization_result:", optimization_result)
 
-    # expected result: slope = 1.5, offset = 3
-
     utils.assertions.assert_similar_result(
-        "optimized slope", final_guess[0], actual_slope
+        "optimized slope", actual_slope, final_guess[0], precision=1
     )
     utils.assertions.assert_similar_result(
-        "optimized offset", final_guess[1], actual_offset
+        "optimized offset", actual_offset, final_guess[1], precision=1
     )

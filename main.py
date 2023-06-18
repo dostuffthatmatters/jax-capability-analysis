@@ -32,23 +32,27 @@ def jit() -> None:
 
 @click.command(help="SciPy demo scripts")
 @click.argument("mode", type=click.Choice(["numpy", "jax"]), required=True)
-@click.option("--array-length", default=1e6)
+@click.option("--array-length", default=10_000)
 def scipy(
     mode: Literal["numpy", "jax"],
     array_length: int,
 ) -> None:
-    timestamps = numpy.linspace(0, 100, array_length)
+    timestamps = numpy.linspace(0, 100, int(array_length))
     data_from_sensor_a = (
         numpy.sin(timestamps)
         + 1
-        + numpy.random.normal(0, 0.3, array_length)
         + timestamps / 10
+        + numpy.random.normal(0, 0.3, int(array_length))
     )
+    # a = sine wave + constant offset + linear slope + noise
+
     actual_slope = 1.5
     actual_offset = 3
-    data_from_sensor_b = data_from_sensor_a
-    data_from_sensor_b *= numpy.random.normal(actual_slope, 0.1, array_length)
-    data_from_sensor_b += numpy.random.normal(actual_offset, 0.1, array_length)
+    data_from_sensor_b = data_from_sensor_a.copy()
+    data_from_sensor_b *= numpy.random.normal(actual_slope, 0.1, int(array_length))
+    data_from_sensor_b += numpy.random.normal(actual_offset, 0.1, int(array_length))
+
+    # expect: b = (a * slope) + offset
     # expect: a = (b - offset) / slope
 
     if mode == "numpy":

@@ -21,23 +21,31 @@ def run(
 
     @jax.jit
     def rmse_with_calibration(x: jax.Array) -> jax.Array:
-        estimated_slope = x[0]
-        estimated_offset = x[1]
         return jax.numpy.sqrt(
             jax.numpy.mean(
                 jax.numpy.power(
-                    data_from_sensor_a_jax
-                    - (estimated_slope * data_from_sensor_b_jax + estimated_offset),
+                    data_from_sensor_a_jax - ((data_from_sensor_b_jax - x[1]) / x[0]),
                     2,
                 )
             )
         )
 
     # running the rmse calculation 10 times
-
-    for i in range(10):
-        with utils.timing.timed_section(f"rmse_with_calibration run #{i}"):
-            rmse_with_calibration((9, 7))
+    for i in range(5):
+        with utils.timing.timed_section(f"run rmse_with_calibration (iteration #{i})"):
+            rmse_with_calibration(jax.numpy.array([1.0, 2.0]))
+    print("changing input shape for jitted function")
+    for i in range(5):
+        with utils.timing.timed_section(
+            f"run rmse_with_calibration (iteration #{i+5})"
+        ):
+            rmse_with_calibration(jax.numpy.array([1.0, 2.0, 3.0]))
+    print("changing input shape for jitted function")
+    for i in range(5):
+        with utils.timing.timed_section(
+            f"run rmse_with_calibration (iteration #{i+10})"
+        ):
+            rmse_with_calibration(jax.numpy.array([1.0, 2.0, 3.0, 4.0]))
 
     # minimize the rmse with respect to the slope and offset
 
@@ -45,16 +53,16 @@ def run(
     optimization_result = jax.scipy.optimize.minimize(
         rmse_with_calibration,
         x0=initial_guess,
+        tol=0.0001,
         method="BFGS",
+        # disp is not supported
     )
     final_guess: Any = optimization_result.x
     print("optimization_result:", optimization_result)
 
-    # expected result: slope = 1.5, offset = 3
-
     utils.assertions.assert_similar_result(
-        "optimized slope", final_guess[0], actual_slope
+        "optimized slope", actual_slope, final_guess[0], precision=1
     )
     utils.assertions.assert_similar_result(
-        "optimized offset", final_guess[1], actual_offset
+        "optimized offset", actual_offset, final_guess[1], precision=1
     )
