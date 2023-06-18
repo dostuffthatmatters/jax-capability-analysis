@@ -29,9 +29,9 @@ def run() -> None:
     dxdy1 = grad_f_typed(x1)
     assert dxdy1.shape == x1.shape
 
-    print(f"x1 = {x1}")
-    print(f"f(x1) = {y1}")
-    print(f"grad_f(x1) = {dxdy1}")
+    print(f"        x1 = {x1}")
+    print(f"     f(x1) = {y1}")
+    print(f"grad_f(x1) = {dxdy1}", end="\n\n")
 
     # compute function and gradient for a vector
 
@@ -40,9 +40,9 @@ def run() -> None:
     dxdy2 = jax.vmap(grad_f_typed)(x2)
     assert dxdy2.shape == x2.shape
 
-    print(f"x2 = {x2}")
-    print(f"f(x2) = {y2}")
-    print(f"grad_f(x2) = {dxdy2}")
+    print(f"        x2 = {x2}")
+    print(f"     f(x2) = {y2}")
+    print(f"grad_f(x2) = {dxdy2}", end="\n\n")
 
     # time the computation of the gradient on the GPU
 

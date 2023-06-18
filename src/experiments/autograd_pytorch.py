@@ -29,9 +29,9 @@ def run() -> None:
     dy1 = grad_f(x1)
     assert dy1.shape == x1.shape
 
-    print(f"x1 = {x1}")
-    print(f"f(x1) = {y1}")
-    print(f"grad_f(x1) = {dy1}")
+    print(f"        x1 = {x1}")
+    print(f"     f(x1) = {y1}")
+    print(f"grad_f(x1) = {dy1}", end="\n\n")
 
     # compute function and gradient for a vector
 
@@ -40,9 +40,9 @@ def run() -> None:
     dy2 = torch.stack([grad_f(_x) for _x in x2])
     assert dy2.shape == x2.shape
 
-    print(f"x2 = {x2}")
-    print(f"f(x2) = {y2}")
-    print(f"grad_f(x2) = {dy2}")
+    print(f"        x2 = {x2}")
+    print(f"     f(x2) = {y2}")
+    print(f"grad_f(x2) = {dy2}", end="\n\n")
 
     # time the computation of the gradient on the GPU
 
