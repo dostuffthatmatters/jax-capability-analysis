@@ -158,6 +158,39 @@ I know, this is not in the mind of JAX's design philosophy of forcing users to t
 
 <br/>
 
+### Metadata Management
+
+In the examples of the Flax library they use the `ConfigDict` object from Google's `ml_collections` library to manage Metadata: https://github.com/google/ml_collections#configdict. However, this is dynamically typed, hence cannot be type checked and doesn't provide any annotations of help for the developer. You can take a look at https://github.com/google/flax/tree/main/examples/mnist and try to find the confirable options - without looking at the README, because code should be self-documenting.
+
+However, managing a statically typed dict with some validation rules is not very hard to implement. The following code snippet shows how to do this with the `pydantic` library:
+
+```python
+import pydantic
+
+class Metadata(pydantic.BaseModel):
+    mode: Literal["flax", "pytorch"]
+    dry_run: bool = pydantic.Field(..., description="only run a few samples")
+    num_epochs: int = pydantic.Field(..., ge=1, le=10000)
+    batch_size_training: int = pydantic.Field(..., ge=1, le=1024)
+    batch_size_validation: int = pydantic.Field(..., ge=1, le=1024)
+    learning_rate: float = pydantic.Field(..., ge=0.000001, le=1.0)
+    momentum: float = pydantic.Field(..., ge=0.0, le=1.0)
+
+
+# statically typed metadata object can now be passed around
+metadata = Metadata(
+    mode="flax",
+    dry_run=False,
+    num_epochs=10,
+    batch_size_training=64,
+    batch_size_validation=64,
+    learning_rate=0.001,
+    momentum=0.9,
+)
+```
+
+<br/>
+
 ## Raw Output from Running the Experiments
 
 ### XLA
