@@ -49,7 +49,7 @@ def run() -> None:
     x3 = jax.numpy.linspace(0, 10 * numpy.pi, 1000, dtype=numpy.float32)
 
     with utils.timing.timed_section(
-        "perform gradient computation on GPU (1000 items, 10 times)"
+        "perform gradient computation on GPU w/o JIT  (1000 items, 10 times)"
     ):
         for _ in range(10):
             dxdy3 = jax.vmap(grad_f_typed)(x3)
@@ -70,7 +70,7 @@ def run() -> None:
     x4 = jax.numpy.linspace(0, 10 * numpy.pi, 1000, dtype=numpy.float32)
 
     with utils.timing.timed_section(
-        "perform gradient computation on CPU (1000 items, 10 times)"
+        "perform gradient computation on CPU w/o JIT  (1000 items, 10 times)"
     ):
         for _ in range(10):
             dxdy4 = jax.vmap(grad_f_typed)(x4)
