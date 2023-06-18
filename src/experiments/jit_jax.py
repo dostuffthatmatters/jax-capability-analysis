@@ -20,14 +20,14 @@ def run() -> None:
 
     # compute function and gradient for a single value
 
-    x1 = jax.numpy.linspace(0, 4 * numpy.pi, 10, dtype=numpy.float32)
+    x1 = jax.numpy.linspace(0, 4 * numpy.pi, 6, dtype=numpy.float16)
     y1 = f(x1)
     y1_jit = f_jit(x1)
     y1_jit_typed = f_jit_typed(x1)
 
-    print("x1 =", x1)
-    print("y1 =", y1)
-    print("y1_jit =", y1_jit)
+    print("          x1 =", x1)
+    print("          y1 =", y1)
+    print("      y1_jit =", y1_jit)
     print("y1_jit_typed =", y1_jit_typed)
 
     # assert equal shapes

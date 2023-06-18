@@ -80,10 +80,41 @@ TODO: add output here
 
 ### JIT
 
-**`./cli.sh jit numpy`:**
+**`./cli.sh jit`:**
 
 ```
-TODO: add output here
+          x1 = [ 0.     2.512  5.023  7.535 10.05  12.56 ]
+          y1 = [ 1.     1.398 -0.76   1.653  1.748  3.508]
+      y1_jit = [ 1.     1.398 -0.76   1.653  1.748  3.508]
+y1_jit_typed = [ 1.     1.398 -0.76   1.653  1.748  3.508]
+array_length = 10000, loop_count = 10000
+  CPU:
+    Time to compute normally: 4.893354s
+    Time to compute with JIT: 0.542782s
+  GPU:
+    Time to compute normally: 4.266910s
+    Time to compute with JIT: 0.353533s
+array_length = 100000, loop_count = 1000
+  CPU:
+    Time to compute normally: 0.967348s
+    Time to compute with JIT: 0.204411s
+  GPU:
+    Time to compute normally: 0.450615s
+    Time to compute with JIT: 0.035176s
+array_length = 1000000, loop_count = 100
+  CPU:
+    Time to compute normally: 0.685130s
+    Time to compute with JIT: 0.179896s
+  GPU:
+    Time to compute normally: 0.048662s
+    Time to compute with JIT: 0.004894s
+array_length = 10000000, loop_count = 10
+  CPU:
+    Time to compute normally: 0.589703s
+    Time to compute with JIT: 0.171562s
+  GPU:
+    Time to compute normally: 0.007898s
+    Time to compute with JIT: 0.002392s
 ```
 
 <br/>
