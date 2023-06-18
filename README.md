@@ -92,6 +92,34 @@ In the following demo video, you see that all typing information is preserved:
 
 https://github.com/dostuffthatmatters/jax-capability-analysis/assets/29046316/2b47211d-f8c4-4d94-8b85-e32c39717b9f
 
+The same type enhancement can be done with `jax.grad`. We can add all keyword arguments that `jax.grad` supports to the `typed_grad` function as well. However, I would like this to be implemented in the JAX library itself:
+
+```python
+def typed_grad(
+    fun: T,
+    argnums: int | typing.Sequence[int] = 0,
+    has_aux: bool = False,
+    holomorphic: bool = False,
+    allow_int: bool = False,
+    reduce_axes: typing.Sequence[typing.Hashable] = (),
+) -> T:
+    return typing.cast(
+        T,
+        jax.grad(
+            fun,
+            argnums=argnums,
+            has_aux=has_aux,
+            holomorphic=holomorphic,
+            allow_int=allow_int,
+            reduce_axes=reduce_axes,
+        ),
+    )
+
+
+f_grad = jax.grad(f)
+f_grad_typed = typed_grad(f)
+```
+
 <br/>
 
 ## Raw Output from Running the Experiments
