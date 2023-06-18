@@ -56,9 +56,41 @@ python main.py xla jax --matrix-size 1000
 
 <br/>
 
-## 🐥 Improvements for the Development Experience
+## 🐥 Improvements for the Development Experience of JAX and Flax
 
-TODO: add improvements here
+### Better Type information
+
+Whenever deriving a JIT-compiled function or a gradient function from any function, the wrapped function loses all type information. This is a problem for static type checkers like MyPy, but most importantly for developers who want to understand their codebase by easily knowing the types of their variables.
+
+The following code snippet implements a function `typed_jit` that does the same thing as `jit`, but preserves the type information of the wrapped function.
+
+```python
+import jax
+import typing
+import pydantic
+
+T = typing.TypeVar("T", bound=typing.Callable)
+
+
+def typed_jit(fun: T) -> T:
+    return typing.cast(T, jax.jit(fun))
+
+
+def f(x: jax.Array) -> jax.Array:
+    """some docstring"""
+    return 0.2 * x + jax.numpy.sin(x) + jax.numpy.cos(2 * x)
+
+
+# has no type information
+f_jit = jax.jit(f)
+
+# preserves type information
+f_jit_typed = typed_jit(f)
+```
+
+In the following demo video, you see that all typing information is preserved:
+
+![demo of typed_jit](./docs/typed-jit.mp4)
 
 ## Raw Output from Running the Experiments
 
