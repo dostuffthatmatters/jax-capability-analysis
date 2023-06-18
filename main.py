@@ -112,22 +112,7 @@ def mnist(
         momentum=momentum,
     )
 
-    experiment: Optional[comet_ml.Experiment] = None
-
-    # TODO: move init to utils
-    COMETML_API_KEY = os.getenv("COMETML_API_KEY")
-    COMETML_PROJECT_NAME = os.getenv("COMETML_PROJECT_NAME")
-    COMETML_WORKSPACE = os.getenv("COMETML_WORKSPACE")
-    if all([COMETML_API_KEY, COMETML_PROJECT_NAME, COMETML_WORKSPACE]):
-        print("initializing comet.ml experiment")
-        experiment = comet_ml.Experiment(
-            api_key=os.getenv("COMET_API_KEY"),
-            project_name="flax-mnist",
-            workspace="dostuffthatmatters",
-        )
-        experiment.log_parameters(metadata.dict())
-    else:
-        print("skip comet.ml initialization")
+    experiment = utils.deep_learning.init_comet_experiment(metadata)
 
     print(f"running {mode} training and evaluation loop")
     if mode == "flax":

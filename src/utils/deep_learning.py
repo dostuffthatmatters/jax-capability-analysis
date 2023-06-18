@@ -2,6 +2,7 @@
 
 import os
 from typing import Literal, Optional
+import comet_ml
 import numpy as np
 import pydantic
 import datasets
@@ -27,6 +28,24 @@ class Metadata(pydantic.BaseModel):
     batch_size_validation: int = pydantic.Field(..., ge=1, le=1024)
     learning_rate: float = pydantic.Field(..., ge=0.000001, le=1.0)
     momentum: float = pydantic.Field(..., ge=0.0, le=1.0)
+
+
+def init_comet_experiment(metadata: Metadata) -> Optional[comet_ml.Experiment]:
+    COMETML_API_KEY = os.getenv("COMETML_API_KEY")
+    COMETML_PROJECT_NAME = os.getenv("COMETML_PROJECT_NAME")
+    COMETML_WORKSPACE = os.getenv("COMETML_WORKSPACE")
+    if all([COMETML_API_KEY, COMETML_PROJECT_NAME, COMETML_WORKSPACE]):
+        print("initializing comet.ml experiment")
+        experiment = comet_ml.Experiment(
+            api_key=os.getenv("COMET_API_KEY"),
+            project_name="flax-mnist",
+            workspace="dostuffthatmatters",
+        )
+        experiment.log_parameters(metadata.dict())
+        return experiment
+
+    print("skip comet.ml initialization")
+    return None
 
 
 class RNG_Provider:
