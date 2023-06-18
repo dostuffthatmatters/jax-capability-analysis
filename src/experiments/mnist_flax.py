@@ -1,3 +1,6 @@
+# model architecture derived from https://github.com/pytorch/examples/tree/main/mnist
+# code derived from https://github.com/google/flax/tree/main/examples/mnist
+
 import math
 from typing import Any, Optional
 import comet_ml

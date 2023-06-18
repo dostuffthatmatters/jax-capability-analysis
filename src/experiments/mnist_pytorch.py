@@ -1,4 +1,4 @@
-# example derived from https://github.com/pytorch/examples/blob/main/mnist/main.py
+# code derived from https://github.com/pytorch/examples/tree/main/mnist
 
 from __future__ import print_function
 from typing import Any
