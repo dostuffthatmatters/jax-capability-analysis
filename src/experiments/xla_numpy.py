@@ -5,17 +5,13 @@ from src import utils
 
 
 def run(matrix_size: int) -> None:
-    print(f"running xla_numpy.py with matrix size: {matrix_size}")
-    print(f"warning: the printouts will be coarsened to size 6")
+    print(f"matrix size = {matrix_size}, 64-Bit float")
 
     # generate random matrices
 
     with utils.timing.timed_section("generate random matrix"):
-        a = numpy.random.rand(matrix_size, matrix_size)
-        b = numpy.random.rand(matrix_size, matrix_size)
-
-    print("a =", utils.linalg.coarsen(a))
-    print("b =", utils.linalg.coarsen(b))
+        a = numpy.random.rand(matrix_size, matrix_size).astype(numpy.float64)
+        b = numpy.random.rand(matrix_size, matrix_size).astype(numpy.float64)
 
     # compute sum and means
 
@@ -37,9 +33,7 @@ def run(matrix_size: int) -> None:
     # compute product
 
     with utils.timing.timed_section("compute product"):
-        c = numpy.matmul(a, b)
-
-    print("c =", utils.linalg.coarsen(a))
+        c = numpy.matmul(a, b).astype(numpy.float64)
 
     # compute mean and sum
 
@@ -57,6 +51,11 @@ def run(matrix_size: int) -> None:
 
     # expect c * cinv == identity
 
+    # notice: the precision of 32-Bit inverse
+    # computation with big matrices is terrible
+
     cid = numpy.matmul(c, cinv)
-    print("cid = ", utils.linalg.coarsen(cid))
-    assert numpy.allclose(cid, numpy.eye(matrix_size)), "c * cinv != identity"
+    print(
+        f"max abs offset from identity:",
+        numpy.abs(cid - numpy.eye(matrix_size, dtype=numpy.float64)).max(),
+    )

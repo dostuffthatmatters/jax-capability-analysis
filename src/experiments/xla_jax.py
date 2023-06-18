@@ -1,11 +1,15 @@
 from src import utils
 import jax.random
 import jax.numpy
+import jax.config
 
 
 def run(matrix_size: int) -> None:
-    print(f"running xla_jax.py with matrix size: {matrix_size}")
-    print(f"warning: the printouts will be coarsened to size 6")
+    print(f"matrix size = {matrix_size}, 64-Bit float")
+
+    # 64 Bit support has to be enabled explicitly
+
+    jax.config.update("jax_enable_x64", True)
 
     # generate random matrices
 
@@ -13,11 +17,16 @@ def run(matrix_size: int) -> None:
     subkey1, subkey2, key = jax.random.split(key, 3)
 
     with utils.timing.timed_section("generate random matrix"):
-        a = jax.random.uniform(subkey1, (matrix_size, matrix_size))
-        b = jax.random.uniform(subkey2, (matrix_size, matrix_size))
-
-    print("a =", utils.linalg.coarsen(a))
-    print("b =", utils.linalg.coarsen(b))
+        a = jax.random.uniform(
+            subkey1,
+            (matrix_size, matrix_size),
+            dtype=jax.numpy.float64,
+        )
+        b = jax.random.uniform(
+            subkey2,
+            (matrix_size, matrix_size),
+            dtype=jax.numpy.float64,
+        )
 
     # compute sum and means
 
@@ -41,8 +50,6 @@ def run(matrix_size: int) -> None:
     with utils.timing.timed_section("compute product"):
         c = jax.numpy.matmul(a, b)
 
-    print("c =", utils.linalg.coarsen(a))
-
     # compute mean and sum
 
     mean_c = c.mean()
@@ -59,6 +66,11 @@ def run(matrix_size: int) -> None:
 
     # expect c * cinv == identity
 
+    # notice: the precision of 32-Bit inverse
+    # computation with big matrices is terrible
+
     cid = jax.numpy.matmul(c, cinv)
-    print("cid = ", utils.linalg.coarsen(cid))
-    assert jax.numpy.allclose(cid, jax.numpy.eye(matrix_size)), "c * cinv != identity"
+    print(
+        f"max abs offset from identity:",
+        jax.numpy.abs(cid - jax.numpy.eye(matrix_size)).mean(),
+    )

@@ -57,15 +57,12 @@ TODO: add improvements here
 **`./cli.sh xla numpy`:**
 
 ```
-TODO: add output here
-```
-
-<br/>
-
-**`./cli.sh xla jax`:**
-
-```
-TODO: add output here
+matrix size = 5000, 64-Bit float
+Time to generate random matrix: 0.810971s
+Time to compute mean and sum: 0.070553s
+Time to compute product: 4.869536s
+Time to compute inverse: 7.654785s
+max abs offset from identity: 3.1141098588705063e-09
 ```
 
 <br/>
@@ -73,7 +70,25 @@ TODO: add output here
 **`./cli.sh xla pytorch`:**
 
 ```
-TODO: add output here
+matrix size = 5000, 64-Bit float
+Time to generate random matrix: 0.141182s
+Time to compute mean and sum: 0.019548s
+Time to compute product: 0.026876s
+Time to compute inverse: 1.669771s
+max abs offset from identity: tensor(1.2526e-09, device='cuda:0', dtype=torch.float64)
+```
+
+<br/>
+
+**`./cli.sh xla jax`:**
+
+```
+matrix size = 5000, 64-Bit float
+Time to generate random matrix: 0.159070s
+Time to compute mean and sum: 0.302824s
+Time to compute product: 1.221243s
+Time to compute inverse: 0.436647s
+max abs offset from identity: 6.400581607035885e-10
 ```
 
 <br/>

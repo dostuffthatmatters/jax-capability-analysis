@@ -6,7 +6,7 @@ import torch
 
 def coarsen(
     matrix: numpy.ndarray[numpy.float32, Any] | jax.Array | torch.Tensor,
-) -> numpy.ndarray[numpy.float32, Any]:
+) -> numpy.ndarray[numpy.float16, Any]:
     """Coarsen a matrix down to a given new size (default is 6),
     by averaging over blocks of pixels. This averaging means,
     interpolating by nearest neighbor"""
@@ -17,7 +17,7 @@ def coarsen(
     assert old_matrix.shape[0] == old_matrix.shape[1]
     assert old_size >= new_size, f"old_size = {old_size}, new_size = {new_size}"
 
-    new_matrix = numpy.zeros((new_size, new_size))
+    new_matrix = numpy.zeros((new_size, new_size), dtype=numpy.float16)
 
     for i in range(new_size):
         for j in range(new_size):

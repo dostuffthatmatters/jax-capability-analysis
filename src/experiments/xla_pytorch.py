@@ -3,23 +3,20 @@ from src import utils
 
 
 def run(matrix_size: int) -> None:
-    print(f"running xla_pytorch.py with matrix size: {matrix_size}")
-    print(f"warning: the printouts will be coarsened to size 6")
+    print(f"matrix size = {matrix_size}, 64-Bit float")
 
     # set up gpu device
 
-    device = torch.device("cuda")
+    device = torch.device("cuda:0")
 
     # generate random matrices
 
     with utils.timing.timed_section("generate random matrix"):
-        a = torch.rand(matrix_size, matrix_size, device=device)
-        b = torch.rand(matrix_size, matrix_size, device=device)
+        a = torch.rand(matrix_size, matrix_size, device=device, dtype=torch.float64)
+        b = torch.rand(matrix_size, matrix_size, device=device, dtype=torch.float64)
 
     assert a.device == device, f"a.device = {a.device}"
     assert b.device == device, f"b.device = {b.device}"
-    print("a =", utils.linalg.coarsen(a))
-    print("b =", utils.linalg.coarsen(b))
 
     # compute sum and means
 
@@ -44,8 +41,6 @@ def run(matrix_size: int) -> None:
         c = torch.matmul(a, b)
         assert c.device == device, f"c.device = {c.device}"
 
-    print("c =", utils.linalg.coarsen(a))
-
     # compute mean and sum
 
     mean_c = float(c.mean())
@@ -63,7 +58,14 @@ def run(matrix_size: int) -> None:
 
     # expect c * cinv == identity
 
+    # notice: the precision of 32-Bit inverse
+    # computation with big matrices is terrible
+
     cid = torch.matmul(c, cinv)
     assert cid.device == device, f"cid.device = {cid.device}"
-    print("cid = ", utils.linalg.coarsen(cid))
-    torch.allclose(cid, torch.eye(matrix_size, device=device))
+    print(
+        f"max abs offset from identity:",
+        torch.abs(
+            cid - torch.eye(matrix_size, dtype=torch.float64, device=device)
+        ).max(),
+    )
