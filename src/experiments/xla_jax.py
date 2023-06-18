@@ -5,8 +5,6 @@ import jax.config
 
 
 def run(matrix_size: int) -> None:
-    print(f"matrix size = {matrix_size}, 64-Bit float")
-
     # 64 Bit support has to be enabled explicitly
 
     jax.config.update("jax_enable_x64", True)  # type: ignore

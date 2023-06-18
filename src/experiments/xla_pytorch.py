@@ -3,8 +3,6 @@ from src import utils
 
 
 def run(matrix_size: int) -> None:
-    print(f"matrix size = {matrix_size}, 64-Bit float")
-
     # set up gpu device
 
     device = torch.device("cuda:0")

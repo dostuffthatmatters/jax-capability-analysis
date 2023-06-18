@@ -3,12 +3,8 @@ import numpy
 
 from src import utils
 
-# TODO: add first print to main.py
-
 
 def run() -> None:
-    print("running autograd_jax.py")
-
     # set up dummy function and gradient function
 
     def f(x: jax.Array) -> jax.Array:

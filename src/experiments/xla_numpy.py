@@ -5,8 +5,6 @@ from src import utils
 
 
 def run(matrix_size: int) -> None:
-    print(f"matrix size = {matrix_size}, 64-Bit float")
-
     # generate random matrices
 
     with utils.timing.timed_section("generate random matrix"):

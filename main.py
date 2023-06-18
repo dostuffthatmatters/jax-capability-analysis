@@ -16,11 +16,15 @@ def xla(
     mode: Literal["numpy", "pytorch", "jax"],
     matrix_size: int,
 ) -> None:
+    print(f"matrix: {matrix_size} x {matrix_size}, 64-Bit float")
     if mode == "numpy":
+        print("running experiment 'xla.numpy'")
         experiments.xla_numpy.run(matrix_size)
     elif mode == "pytorch":
+        print("running experiment 'xla.pytorch'")
         experiments.xla_pytorch.run(matrix_size)
     elif mode == "jax":
+        print("running experiment 'xla.jax'")
         experiments.xla_jax.run(matrix_size)
 
 
@@ -55,6 +59,7 @@ def scipy(
     # expect: a = (b - offset) / slope
 
     if mode == "numpy":
+        print("running experiment 'scipy.numpy'")
         experiments.scipy_numpy.run(
             data_from_sensor_a,
             data_from_sensor_b,
@@ -62,6 +67,7 @@ def scipy(
             actual_offset,
         )
     elif mode == "jax":
+        print("running experiment 'scipy.jax'")
         experiments.scipy_jax.run(
             data_from_sensor_a,
             data_from_sensor_b,
@@ -76,8 +82,10 @@ def autograd(
     mode: Literal["pytorch", "jax"],
 ) -> None:
     if mode == "pytorch":
+        print("running experiment 'autograd.pytorch'")
         experiments.autograd_pytorch.run()
     elif mode == "jax":
+        print("running experiment 'autograd.jax'")
         experiments.autograd_jax.run()
 
 
@@ -100,7 +108,6 @@ def mnist(
     learning_rate: float,
     momentum: float,
 ) -> None:
-    print("parsing metadata")
     metadata = utils.deep_learning.Metadata(
         mode=mode,
         dry_run=dry_run,
@@ -110,14 +117,17 @@ def mnist(
         learning_rate=learning_rate,
         momentum=momentum,
     )
+    print(f"metadata: {metadata}")
 
-    print(f"running {mode} training and evaluation loop")
     if mode == "flax":
+        print("running experiment 'mnist.flax'")
         experiment = utils.deep_learning.init_comet_experiment(metadata)
         experiments.mnist_flax.run_training(metadata, experiment)
     elif mode == "pytorch":
+        print("running experiment 'mnist.pytorch'")
         experiments.mnist_pytorch.run_training(metadata)
     elif mode == "preprocess-images":
+        print("running experiment 'mnist.preprocess-images'")
         utils.deep_learning.MNIST_FlaxDataset.compute_mean_and_std()
 
 

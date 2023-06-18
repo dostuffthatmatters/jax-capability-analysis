@@ -5,8 +5,6 @@ from src import utils
 
 
 def run() -> None:
-    print("running autograd_pytorch.py")
-
     # set up gpu device
 
     device = torch.device("cuda")
