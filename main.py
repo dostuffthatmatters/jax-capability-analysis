@@ -1,7 +1,6 @@
 import os
-from typing import Literal, Optional
+from typing import Literal
 import click
-import comet_ml
 import dotenv
 import numpy
 
@@ -112,13 +111,12 @@ def mnist(
         momentum=momentum,
     )
 
-    experiment = utils.deep_learning.init_comet_experiment(metadata)
-
     print(f"running {mode} training and evaluation loop")
     if mode == "flax":
+        experiment = utils.deep_learning.init_comet_experiment(metadata)
         experiments.mnist_flax.run_training(metadata, experiment)
     elif mode == "pytorch":
-        experiments.mnist_pytorch.run_training(metadata, experiment)
+        experiments.mnist_pytorch.run_training(metadata)
     elif mode == "preprocess-images":
         utils.deep_learning.MNIST_FlaxDataset.compute_mean_and_std()
 

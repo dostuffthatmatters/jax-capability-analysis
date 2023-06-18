@@ -5,8 +5,6 @@ import jax.scipy.optimize
 
 from src import utils
 
-# TODO: plot input and output with plotly and save it to ./out
-
 
 def run(
     data_from_sensor_a: numpy.ndarray[numpy.float32, Any],

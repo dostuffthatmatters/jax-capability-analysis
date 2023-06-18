@@ -325,5 +325,3 @@ def run_training(
             experiment=experiment,
             epoch_index=epoch_index,
         )
-
-    # TODO: export model

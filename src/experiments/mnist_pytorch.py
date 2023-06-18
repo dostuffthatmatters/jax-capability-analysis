@@ -2,7 +2,6 @@
 
 from __future__ import print_function
 from typing import Any
-import comet_ml
 
 import torch
 import torch.nn
@@ -125,12 +124,8 @@ def validate(
     )
 
 
-# TODO: add comet ml integration
-
-
 def run_training(
     metadata: utils.deep_learning.Metadata,
-    experiment: comet_ml.Experiment,
 ) -> None:
     use_cuda = torch.cuda.is_available()
     print(f"Using CUDA: {use_cuda}")
@@ -184,8 +179,3 @@ def run_training(
             validation_dataloader,
             sample_count=len(validation_dataset),
         )
-
-    # if args.save_model:
-    #     torch.save(model.state_dict(), "mnist_cnn.pt")
-
-    # TODO: export model
