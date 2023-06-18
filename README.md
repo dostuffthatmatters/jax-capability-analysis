@@ -122,6 +122,42 @@ f_grad_typed = typed_grad(f)
 
 <br/>
 
+### PRNG Key Management
+
+The way, the JAX documentation wants users to generate new random keys is very cumbersome to read and write.
+
+```python
+rng = jax.random.PRNGKey(seed=42)
+
+key1, rng = jax.random.split(rng)
+function_that_uses_a_key(key1)
+
+key2, rng = jax.random.split(rng)
+function_that_uses_a_key(key2)
+```
+
+Using a tiny utility class, can make the code way more readable and does not lead to naming issues:
+
+```python
+class RNG_Provider:
+    def __init__(self, seed: int):
+        self._rng = jax.random.PRNGKey(seed)
+
+    def get(self) -> jax.random.PRNGKeyArray:
+        """split the current key and return one part of it"""
+        self._rng, rng = jax.random.split(self._rng)
+        return rng
+
+
+rng_provider = RNG_Provider(seed=42)
+function_that_uses_a_key(rng_provider.get())
+function_that_uses_a_key(rng_provider.get())
+```
+
+I know, this is not in the mind of JAX's design philosophy of forcing users to think about their PRNG usage, but I don't thinks this is hidin away any complexity that could lead to invalid results.
+
+<br/>
+
 ## Raw Output from Running the Experiments
 
 ### XLA
