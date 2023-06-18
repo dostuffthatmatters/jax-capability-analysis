@@ -95,6 +95,21 @@ class MNIST_FlaxDataset:
     def __len__(self) -> int:
         return self.sample_count
 
+    @staticmethod
+    def compute_mean_and_std() -> None:
+        """computes mean and std over all training and validation
+        images and prints them to stdout. It only uses the training
+        dataset because no knowledge about the validation dataset
+        should be used in training."""
+
+        training_dataset = MNIST_FlaxDataset(variant="training")
+        assert training_dataset.images.shape == (60000, 28, 28, 1)
+
+        overall_mean = training_dataset.images.flatten().mean()
+        overall_std = training_dataset.images.flatten().std()
+        print(f"Overall mean: {overall_mean:.6f}")
+        print(f"Overall std: {overall_std:.6f}")
+
 
 class MNIST_PytorchDataset:
     def __init__(

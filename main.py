@@ -120,17 +120,7 @@ def mnist(
     elif mode == "pytorch":
         experiments.mnist_pytorch.run_training(metadata, experiment)
     elif mode == "preprocess-images":
-        # TODO: move this to utils
-        training_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="training")
-        validation_dataset = utils.deep_learning.MNIST_FlaxDataset(variant="validation")
-
-        assert training_dataset.images.shape == (60000, 28, 28, 1)
-        assert validation_dataset.images.shape == (10000, 28, 28, 1)
-
-        overall_mean = training_dataset.images.flatten().mean()
-        overall_std = training_dataset.images.flatten().std()
-        print(f"Overall mean: {overall_mean:.6f}")
-        print(f"Overall std: {overall_std:.6f}")
+        utils.deep_learning.MNIST_FlaxDataset.compute_mean_and_std()
 
 
 @click.group()
