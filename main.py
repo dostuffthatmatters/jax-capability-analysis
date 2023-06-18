@@ -87,7 +87,7 @@ def autograd(
     "mode", type=click.Choice(["flax", "pytorch", "preprocess-images"]), required=True
 )
 @click.option("--dry-run", is_flag=True, default=False)
-@click.option("--num-epochs", default=20)
+@click.option("--num-epochs", default=10)
 @click.option("--batch-size-training", default=128)
 @click.option("--batch-size-validation", default=128)
 @click.option("--learning-rate", default=0.01)

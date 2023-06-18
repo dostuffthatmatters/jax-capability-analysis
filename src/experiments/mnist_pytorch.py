@@ -3,54 +3,56 @@
 from __future__ import print_function
 from typing import Any
 import comet_ml
+
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from torch.optim.lr_scheduler import StepLR
+import torch.nn
+import torch.nn.functional
+import torch.optim
 import torch.utils.data
 
 from src import utils
 
 
-# TODO: use same model as flax
-
-
-class CNN(nn.Module):
+class CNN(torch.nn.Module):
     def __init__(self) -> None:
         super(CNN, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1)
-
-        self.conv2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1)
-
-        self.fc1 = nn.Linear(5 * 5 * 64, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.conv1 = torch.nn.Conv2d(
+            in_channels=1, out_channels=32, kernel_size=3, stride=1
+        )
+        self.conv2 = torch.nn.Conv2d(
+            in_channels=32, out_channels=64, kernel_size=3, stride=1
+        )
+        self.dropout1 = torch.nn.Dropout(p=0.25)
+        self.fc1 = torch.nn.Linear(12 * 12 * 64, 256)
+        self.dropout2 = torch.nn.Dropout(p=0.5)
+        self.fc2 = torch.nn.Linear(256, 10)
 
     def forward(self, x: Any) -> Any:
         x = self.conv1(x)
-        # 28 x 28 -> 26 x 26
-
-        x = F.relu(x)
-        x = F.avg_pool2d(x, kernel_size=2)
-        # 26 x 26 -> 13 x 13
+        x = torch.nn.functional.relu(x)
+        # 28 x 28 x 1 -> 26 x 26 x 32
 
         x = self.conv2(x)
-        # 13 x 13 -> 11 x 11
+        x = torch.nn.functional.relu(x)
+        # 26 x 26 x 32 -> 24 x 24 x 64
 
-        x = F.relu(x)
-        x = F.avg_pool2d(x, kernel_size=2)
-        # 11 x 11 -> 5 x 5
+        x = torch.nn.functional.max_pool2d(x, kernel_size=2)
+        x = self.dropout1(x)
+        # 24 x 24 x 64 -> 12 x 12 x 64
 
         x = torch.flatten(x, start_dim=1)
-        # 5 x 5 x 64 -> 1600
+        # 12 x 12 x 64 -> 9216
 
         x = self.fc1(x)
-        x = F.relu(x)
-        # 1600 -> 128
+        x = torch.nn.functional.relu(x)
+        x = self.dropout2(x)
+        # 9216 -> 256
 
         x = self.fc2(x)
-        output = F.log_softmax(x, dim=1)
-        return output
+        x = torch.nn.functional.log_softmax(x, dim=1)
+        # 256 -> 10
+
+        return x
 
 
 def train(
@@ -58,7 +60,7 @@ def train(
     model: CNN,
     device: torch.device,
     dataloader: torch.utils.data.DataLoader[Any],
-    optimizer: optim.SGD | optim.Adadelta,
+    optimizer: torch.optim.SGD | torch.optim.Adadelta,
     epoch_index: int,
     sample_count: int,
 ) -> None:
@@ -71,18 +73,17 @@ def train(
         optimizer.zero_grad()
 
         output = model(data)
-        loss = F.nll_loss(output, target)
+        loss = torch.nn.functional.nll_loss(output, target)
         loss.backward()  # type: ignore
         optimizer.step()
-        if batch_idx % 10 == 0:
+        if batch_idx % 20 == 0:
+            # compute accuracy
+            pred = output.argmax(dim=1, keepdim=True)
+            train_accuracy = pred.eq(target.view_as(pred)).sum().item() / len(data)
             print(
-                "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
-                    epoch_index + 1,
-                    batch_idx * len(data),
-                    sample_count,
-                    100.0 * batch_idx / len(dataloader),
-                    loss.item(),
-                )
+                f"Train Epoch: {epoch_index + 1} [{batch_idx * len(data):5d}/{sample_count:5d} "
+                + f"({100.0 * batch_idx / len(dataloader):2.0f}%)] "
+                + f"Loss: {loss.item():.6f}, Accuracy: {train_accuracy:.6f}"
             )
             if metadata.dry_run:
                 break
@@ -104,7 +105,7 @@ def validate(
             assert list(target.shape)[1:] == []
 
             output = model(data)
-            validation_loss += F.nll_loss(
+            validation_loss += torch.nn.functional.nll_loss(
                 output, target, reduction="sum"
             ).item()  # sum up batch loss
             pred = output.argmax(
@@ -162,7 +163,7 @@ def run_training(
     )
 
     cnn = CNN().to(device)
-    optimizer = optim.SGD(
+    optimizer = torch.optim.SGD(
         cnn.parameters(),
         lr=metadata.learning_rate,
         momentum=metadata.momentum,
