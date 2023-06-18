@@ -90,7 +90,9 @@ f_jit_typed = typed_jit(f)
 
 In the following demo video, you see that all typing information is preserved:
 
-![demo of typed_jit](./docs/typed-jit.mp4)
+https://github.com/dostuffthatmatters/jax-capability-analysis/assets/29046316/2b47211d-f8c4-4d94-8b85-e32c39717b9f
+
+<br/>
 
 ## Raw Output from Running the Experiments
 
