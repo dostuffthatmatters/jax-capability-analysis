@@ -78,3 +78,7 @@ ignore_missing_imports = true
 filterwarnings = [
     "ignore::DeprecationWarning"
 ]
+markers = [
+    "installation: checks the correctness of the PyTorch and JAX installation",
+    "typing: checks the static type annotations with MyPy"
+]

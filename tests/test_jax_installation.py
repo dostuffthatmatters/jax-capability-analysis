@@ -1,8 +1,10 @@
 import jax.numpy
 import jaxlib
 import jax.lib
+import pytest
 
 
+@pytest.mark.installation
 def test_jax_installation() -> None:
     assert jaxlib.__version__ == "0.4.10", f"jaxlib.__version__ = {jaxlib.__version__}"
 

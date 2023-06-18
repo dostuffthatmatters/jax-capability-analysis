@@ -1,6 +1,8 @@
+import pytest
 import torch
 
 
+@pytest.mark.installation
 def test_torch_installation() -> None:
     x = torch.rand(5, 3)
     print(x)

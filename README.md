@@ -21,6 +21,16 @@ source .venv/bin/activate
 poetry install
 ```
 
+Test the installation/codebase with:
+
+```bash
+# Test whether PyTorch and JAX can connect to the CUDA GPU
+pytest -m installation tests/
+
+# (developers only) test static type annotations with MyPy
+pytest -m typing tests/
+```
+
 <br/>
 
 ## 🌋 Run the Analysis Scripts
