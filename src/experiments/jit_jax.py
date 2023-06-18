@@ -53,6 +53,7 @@ def run() -> None:
         with utils.timing.timed_section("compute normally", indent=4):
             for _ in range(loop_count):
                 y1 = f(x1)
+        y1 = f_jit_typed(x1)  # compile this outside of timing
         with utils.timing.timed_section("compute with JIT", indent=4):
             for _ in range(loop_count):
                 y1 = f_jit_typed(x1)
@@ -63,6 +64,7 @@ def run() -> None:
         with utils.timing.timed_section("compute normally", indent=4):
             for _ in range(loop_count):
                 y2 = f(x2)
+        y2 = f_jit_typed(x2)  # compile this outside of timing
         with utils.timing.timed_section("compute with JIT", indent=4):
             for _ in range(loop_count):
                 y2 = f_jit_typed(x2)

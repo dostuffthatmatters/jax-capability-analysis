@@ -83,38 +83,39 @@ TODO: add output here
 **`./cli.sh jit`:**
 
 ```
+running jit_jax.py
           x1 = [ 0.     2.512  5.023  7.535 10.05  12.56 ]
           y1 = [ 1.     1.398 -0.76   1.653  1.748  3.508]
       y1_jit = [ 1.     1.398 -0.76   1.653  1.748  3.508]
 y1_jit_typed = [ 1.     1.398 -0.76   1.653  1.748  3.508]
 array_length = 10000, loop_count = 10000
   CPU:
-    Time to compute normally: 4.893354s
-    Time to compute with JIT: 0.542782s
+    Time to compute normally: 4.978520s
+    Time to compute with JIT: 0.341038s
   GPU:
-    Time to compute normally: 4.266910s
-    Time to compute with JIT: 0.353533s
+    Time to compute normally: 4.668422s
+    Time to compute with JIT: 0.407004s
 array_length = 100000, loop_count = 1000
   CPU:
-    Time to compute normally: 0.967348s
-    Time to compute with JIT: 0.204411s
+    Time to compute normally: 0.996854s
+    Time to compute with JIT: 0.036692s
   GPU:
-    Time to compute normally: 0.450615s
-    Time to compute with JIT: 0.035176s
+    Time to compute normally: 0.449717s
+    Time to compute with JIT: 0.037864s
 array_length = 1000000, loop_count = 100
   CPU:
-    Time to compute normally: 0.685130s
-    Time to compute with JIT: 0.179896s
+    Time to compute normally: 0.643250s
+    Time to compute with JIT: 0.003452s
   GPU:
-    Time to compute normally: 0.048662s
-    Time to compute with JIT: 0.004894s
+    Time to compute normally: 0.041690s
+    Time to compute with JIT: 0.003868s
 array_length = 10000000, loop_count = 10
   CPU:
-    Time to compute normally: 0.589703s
-    Time to compute with JIT: 0.171562s
+    Time to compute normally: 0.581300s
+    Time to compute with JIT: 0.000339s
   GPU:
-    Time to compute normally: 0.007898s
-    Time to compute with JIT: 0.002392s
+    Time to compute normally: 0.007957s
+    Time to compute with JIT: 0.002285s
 ```
 
 <br/>
