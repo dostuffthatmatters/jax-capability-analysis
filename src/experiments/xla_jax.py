@@ -9,7 +9,7 @@ def run(matrix_size: int) -> None:
 
     # 64 Bit support has to be enabled explicitly
 
-    jax.config.update("jax_enable_x64", True)
+    jax.config.update("jax_enable_x64", True)  # type: ignore
 
     # generate random matrices
 
