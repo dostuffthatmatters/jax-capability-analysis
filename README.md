@@ -191,6 +191,23 @@ metadata = Metadata(
 
 <br/>
 
+### Improve The Development Experience of Your Deep Learning Stack
+
+Instead of using the `ml_collections` [^1] library, I prefer using `pydantic` [^2] for validation and `click` [^3] for building a CLI - have a look at `main.py`. To make the dataset loading framework-agnostic, I really like the `datasets` [^4] library by Hugging Face - then you won't have to load a huge PyTorch or Tensorflow dependency package into your project's virtual environment.
+
+Deep Learning dependencies are very flaky, because many of them depend on an exact version of e.g. CUDA or CuDNN and have a lot of active contributors and frequent releases. Therefore you should not only include a `requirements.txt` file in your project with `pytorch==^1.8.1` but specify exact minor versions of the libraries you are using. I recommend to use Poetry [^5] for documenting Python dependencies.
+
+I find static type checkers are very useful because they save you a lot of debugging time at runtime and force you to have good function, class and variable annotations. When using MyPy [^6] to statically check your code, it will also parse your virtual environment, hence a big dependencies like PyTorch or Tensorflow will add minutes to the initial run of MyPy (whenever it does not find a `.mypy_cache` directory).
+
+[^1]: ML Collections https://github.com/google/ml_collections
+[^2]: Pydantic https://github.com/pydantic/pydantic
+[^3]: Click https://github.com/pallets/click
+[^4]: Datasets https://github.com/huggingface/datasets
+[^5]: Poetry https://github.com/python-poetry/poetry
+[^6]: MyPy https://github.com/python/mypy
+
+<br/>
+
 ## Raw Output from Running the Experiments
 
 ### XLA
