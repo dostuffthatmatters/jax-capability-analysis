@@ -6,7 +6,7 @@ This repository contains the demo project for my analysis of the capabilities of
 
 ## 🛠️ Installation
 
-This project only works on **Linux x86_64** systems that have a **CUDA compatible GPU** and **CUDA 12.0** as well as CuDNN 8.1 installed. The project has been tested on Ubuntu 20.04 with a NVIDIA GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
+This project only works on **Linux x86_64** systems with a **CUDA compatible GPU** and **CUDA 12.0** and CuDNN 8.1 installed. The project has been tested on Ubuntu 20.04 with an Nvidia GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
 
 Install the Python 3.11 project using the following steps:
 
@@ -21,7 +21,7 @@ source .venv/bin/activate
 poetry install
 ```
 
-Test the installation/codebase with:
+Test the installation/codebase with the following commands:
 
 ```bash
 # Test whether PyTorch and JAX can connect to the CUDA GPU
@@ -35,7 +35,7 @@ pytest -m typing tests/
 
 ## 🌋 Run the Analysis Scripts
 
-The analysis scripts have been structured as a CLI using Click (https://click.palletsprojects.com/en/8.1.x/). The following commands will show you how to run the experiments of the different sections:
+The analysis scripts have been structured as a CLI using Click (https://click.palletsprojects.com/en/8.1.x/). The following commands show how to run the different experiments.
 
 ```bash
 # show help menu of the whole project
@@ -52,7 +52,7 @@ python main.py mnist --help
 python main.py xla jax --matrix-size 1000
 ```
 
-⚠️ After calling the CLI, it might take a few seconds until the experiment starts. This is mainly because the PyTorch library is very big and has to be loaded into memory.
+⚠️ After calling the CLI, it might take a few seconds until the experiment starts. This is mainly because the PyTorch library is big and must be loaded into memory.
 
 <br/>
 
@@ -92,7 +92,7 @@ In the following demo video, you see that all typing information is preserved:
 
 https://github.com/dostuffthatmatters/jax-capability-analysis/assets/29046316/2b47211d-f8c4-4d94-8b85-e32c39717b9f
 
-The same type enhancement can be done with `jax.grad`. We can add all keyword arguments that `jax.grad` supports to the `typed_grad` function as well. However, I would like this to be implemented in the JAX library itself:
+The same type of enhancement can be done with `jax.grad`. We can add all keyword arguments that `jax.grad` supports to the `typed_grad` function as well. However, I would like this to be implemented in the JAX library itself:
 
 ```python
 def typed_grad(
@@ -124,7 +124,7 @@ f_grad_typed = typed_grad(f)
 
 ### PRNG Key Management
 
-The way, the JAX documentation wants users to generate new random keys is very cumbersome to read and write.
+The way the JAX documentation wants users to generate new random keys is very cumbersome to read and write.
 
 ```python
 rng = jax.random.PRNGKey(seed=42)
@@ -136,7 +136,7 @@ key2, rng = jax.random.split(rng)
 function_that_uses_a_key(key2)
 ```
 
-Using a tiny utility class, can make the code way more readable and does not lead to naming issues:
+Using a small utility class, can make the code way more readable and does not lead to naming issues:
 
 ```python
 class RNG_Provider:
@@ -154,15 +154,15 @@ function_that_uses_a_key(rng_provider.get())
 function_that_uses_a_key(rng_provider.get())
 ```
 
-I know, this is not in the mind of JAX's design philosophy of forcing users to think about their PRNG usage, but I don't thinks this is hidin away any complexity that could lead to invalid results.
+I know this is not in the mind of JAX's design philosophy of forcing users to think about their PRNG usage, but I do not think this is hiding away any complexity that could lead to invalid results.
 
 <br/>
 
 ### Metadata Management
 
-In the examples of the Flax library they use the `ConfigDict` object from Google's `ml_collections` library to manage Metadata: https://github.com/google/ml_collections#configdict. However, this is dynamically typed, hence cannot be type checked and doesn't provide any annotations of help for the developer. You can take a look at https://github.com/google/flax/tree/main/examples/mnist and try to find the confirable options - without looking at the README, because code should be self-documenting.
+In the examples of the Flax library, they use the `ConfigDict` object from Google's `ml_collections` library to manage Metadata: https://github.com/google/ml_collections#configdict. However, this is dynamically typed; hence cannot be type-checked and does not provide any annotations of help for the developer. You can look at https://github.com/google/flax/tree/main/examples/mnist and try to find the configurable options - without looking at the README because code should be self-documenting.
 
-However, managing a statically typed dict with some validation rules is not very hard to implement. The following code snippet shows how to do this with the `pydantic` library:
+However, managing a statically typed dictionary with some validation rules is not very hard to implement. The following code snippet shows how to do this with the `pydantic` library:
 
 ```python
 import pydantic
@@ -193,11 +193,11 @@ metadata = Metadata(
 
 ### Improve The Development Experience of Your Deep Learning Stack
 
-Instead of using the `ml_collections` [^1] library, I prefer using `pydantic` [^2] for validation and `click` [^3] for building a CLI - have a look at `main.py`. To make the dataset loading framework-agnostic, I really like the `datasets` [^4] library by Hugging Face - then you won't have to load a huge PyTorch or Tensorflow dependency package into your project's virtual environment.
+Instead of using the `ml_collections` [^1] library, I prefer using `pydantic` [^2] for validation and `click` [^3] for building a CLI - have a look at `main.py`. To make the dataset loading framework-agnostic, I like the `datasets` [^4] library by Hugging Face - then you will not have to load a huge PyTorch or TensorFlow dependency package into your project's virtual environment.
 
-Deep Learning dependencies are very flaky, because many of them depend on an exact version of e.g. CUDA or CuDNN and have a lot of active contributors and frequent releases. Therefore you should not only include a `requirements.txt` file in your project with `pytorch==^1.8.1` but specify exact minor versions of the libraries you are using. I recommend to use Poetry [^5] for documenting Python dependencies.
+Deep Learning dependencies are very flaky because many of them depend on an exact version of, e.g. CUDA or CuDNN and have a lot of active contributors and frequent releases. Therefore you should not only include a `requirements.txt` file in your project with `pytorch==^1.8.1` but specify exact minor versions of the libraries you are using. I recommend using Poetry [^5] for documenting Python dependencies.
 
-I find static type checkers are very useful because they save you a lot of debugging time at runtime and force you to have good function, class and variable annotations. When using MyPy [^6] to statically check your code, it will also parse your virtual environment, hence a big dependencies like PyTorch or Tensorflow will add minutes to the initial run of MyPy (whenever it does not find a `.mypy_cache` directory).
+Static type checkers are very useful because they save you much debugging time at runtime and force you to have good function, class and variable annotations. When using MyPy [^6] to statically check your code, it will also parse your virtual environment; hence a big dependency like PyTorch or Tensorflow will add minutes to the initial run of MyPy (whenever it does not find a `.mypy_cache` directory).
 
 [^1]: ML Collections https://github.com/google/ml_collections
 [^2]: Pydantic https://github.com/pydantic/pydantic
