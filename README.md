@@ -6,7 +6,7 @@ This repository contains the demo project for my analysis of the capabilities of
 
 ## 🛠️ Installation
 
-This project only works on **Linux x86_64** systems with a **CUDA compatible GPU** and **CUDA 12.0** and CuDNN 8.1 installed. The project has been tested on Ubuntu 20.04 with an Nvidia GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
+This project only works on **Linux x86_64** systems with a **CUDA compatible GPU** and **CUDA 12.0** and **CuDNN 8.1** installed. The project has been tested on Ubuntu 20.04 with an Nvidia GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
 
 Install the Python 3.11 project using the following steps:
 
@@ -90,7 +90,7 @@ f_jit_typed = typed_jit(f)
 
 In the following demo video, you see that all typing information is preserved:
 
-https://github.com/dostuffthatmatters/jax-capability-analysis/assets/29046316/2b47211d-f8c4-4d94-8b85-e32c39717b9f
+https://github.com/dostuffthatmatters/jax-capability-analysis/assets/29046316/16359d1a-54e6-43ea-8d2c-0e7755b5ab79
 
 The same type of enhancement can be done with `jax.grad`. We can add all keyword arguments that `jax.grad` supports to the `typed_grad` function as well. However, I would like this to be implemented in the JAX library itself:
 
