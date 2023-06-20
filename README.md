@@ -6,7 +6,7 @@ This repository contains the demo project for my analysis of the capabilities of
 
 ## 🛠️ Installation
 
-This project only works on **Linux x86_64** systems with a **CUDA compatible GPU** and **CUDA 12.0** and **CuDNN 8.1** installed. The project has been tested on Ubuntu 20.04 with an Nvidia GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
+This project only works on **Linux x86_64** systems with a **CUDA compatible GPU** and **CUDA 12.0** and **CuDNN 8.8.1** installed. The project has been tested on Ubuntu 20.04 with an Nvidia GeForce RTX 3060 Ti hosted on [Genesis Cloud](https://genesiscloud.com/).
 
 Install the Python 3.11 project using the following steps:
 
