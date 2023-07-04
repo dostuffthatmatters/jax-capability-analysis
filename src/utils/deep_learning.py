@@ -16,6 +16,8 @@ PROJECT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
 DATA_CACHE_DIR = os.path.join(PROJECT_DIR, "data")
+
+# these could also be calculated on the fly
 IMAGE_MEAN = 0.130660
 IMAGE_STD = 0.308108
 
