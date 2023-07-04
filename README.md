@@ -2,6 +2,8 @@
 
 This repository contains the demo project for my analysis of the capabilities of the Python library **JAX**.
 
+I want to thank my supervisor, Iryna Burak, for her guidance on what aspects of comparing JAX to other tools make sense and for her valuable feedback reviewing this repository's paper.
+
 <br/>
 
 ## 🛠️ Installation
