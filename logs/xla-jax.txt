@@ -1,0 +1,6 @@
+matrix size = 5000, 64-Bit float
+Time to generate random matrix: 0.159070s
+Time to compute mean and sum: 0.302824s
+Time to compute product: 1.221243s
+Time to compute inverse: 0.436647s
+max abs offset from identity: 6.400581607035885e-10

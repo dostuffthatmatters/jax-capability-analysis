@@ -1,0 +1,40 @@
+parsing metadata
+skip comet.ml initialization
+running pytorch training and evaluation loop
+Using CUDA: True
+Loading Training dataset
+loading data from HuggingFace Datasets...
+Found cached dataset mnist (/home/ubuntu/Documents/jax-capability-analysis/data/mnist/mnist/1.0.0/9d494b7f466d6931c64fb39d58bb1249a4d85c9eb9865d9bc20960b999e2a332)
+100%|█████████████████████████████████████████████████| 2/2 [00:00<00:00, 395.88it/s]
+transforming and parsing data ...
+images: 100%|█████████████████████████████████████████| 60000/60000 [00:09<00:00, 6640.24it/s]
+labels: 100%|█████████████████████████████████████████| 60000/60000 [00:08<00:00, 7474.88it/s]
+Loading Validation dataset
+loading data from HuggingFace Datasets...
+Found cached dataset mnist (/home/ubuntu/Documents/jax-capability-analysis/data/mnist/mnist/1.0.0/9d494b7f466d6931c64fb39d58bb1249a4d85c9eb9865d9bc20960b999e2a332)
+100%|█████████████████████████████████████████████████| 2/2 [00:00<00:00, 481.63it/s]
+transforming and parsing data ...
+images: 100%|█████████████████████████████████████████| 10000/10000 [00:01<00:00, 7134.12it/s]
+labels: 100%|█████████████████████████████████████████| 10000/10000 [00:01<00:00, 7391.99it/s]
+Train Epoch: 1 [    0/60000 ( 0%)] Loss: 2.304506
+Train Epoch: 1 [ 1280/60000 ( 2%)] Loss: 1.785377
+Train Epoch: 1 [ 2560/60000 ( 4%)] Loss: 0.892751
+...
+Train Epoch: 1 [57600/60000 (96%)] Loss: 0.080127
+Train Epoch: 1 [58880/60000 (98%)] Loss: 0.149030
+
+Test set: Average loss: 0.0734, Accuracy: 9760/10000 (98%)
+
+Train Epoch: 2 [    0/60000 ( 0%)] Loss: 0.056260
+Train Epoch: 2 [ 1280/60000 ( 2%)] Loss: 0.137641
+Train Epoch: 2 [ 2560/60000 ( 4%)] Loss: 0.060220
+...
+Train Epoch: 2 [57600/60000 (96%)] Loss: 0.097883
+Train Epoch: 2 [58880/60000 (98%)] Loss: 0.172521
+
+Test set: Average loss: 0.0480, Accuracy: 9843/10000 (98%)
+
+Train Epoch: 3 [    0/60000 ( 0%)] Loss: 0.066899
+Train Epoch: 3 [ 1280/60000 ( 2%)] Loss: 0.046682
+Train Epoch: 3 [ 2560/60000 ( 4%)] Loss: 0.191935
+...

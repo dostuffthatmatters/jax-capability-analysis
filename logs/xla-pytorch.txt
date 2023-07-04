@@ -1,0 +1,6 @@
+matrix size = 5000, 64-Bit float
+Time to generate random matrix: 0.141182s
+Time to compute mean and sum: 0.019548s
+Time to compute product: 0.026876s
+Time to compute inverse: 1.669771s
+max abs offset from identity: tensor(1.2526e-09, device='cuda:0', dtype=torch.float64)

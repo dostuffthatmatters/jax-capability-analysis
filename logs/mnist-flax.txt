@@ -1,0 +1,78 @@
+parsing metadata
+skip comet.ml initialization
+running flax training and evaluation loop
+Local devices detected by JAX: [StreamExecutorGpuDevice(id=0, process_index=0, slice_index=0)]
+Loading Training dataset
+loading data from HuggingFace Datasets...
+Found cached dataset mnist (/home/ubuntu/Documents/jax-capability-analysis/data/mnist/mnist/1.0.0/9d494b7f466d6931c64fb39d58bb1249a4d85c9eb9865d9bc20960b999e2a332)
+100%|█████████████████████████████████████████████████| 2/2 [00:00<00:00, 395.88it/s]
+transforming and parsing data ...
+images: 100%|█████████████████████████████████████████| 60000/60000 [00:09<00:00, 6640.24it/s]
+labels: 100%|█████████████████████████████████████████| 60000/60000 [00:08<00:00, 7474.88it/s]
+Loading Validation dataset
+loading data from HuggingFace Datasets...
+Found cached dataset mnist (/home/ubuntu/Documents/jax-capability-analysis/data/mnist/mnist/1.0.0/9d494b7f466d6931c64fb39d58bb1249a4d85c9eb9865d9bc20960b999e2a332)
+100%|█████████████████████████████████████████████████| 2/2 [00:00<00:00, 481.63it/s]
+transforming and parsing data ...
+images: 100%|█████████████████████████████████████████| 10000/10000 [00:01<00:00, 7134.12it/s]
+labels: 100%|█████████████████████████████████████████| 10000/10000 [00:01<00:00, 7391.99it/s]
+
+                                           CNN Summary
+┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ path      ┃ module  ┃ inputs               ┃ outputs             ┃ params                     ┃
+┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│           │ CNN     │ - float32[1,28,28,1] │ float32[1,10]       │                            │
+│           │         │ - training: False    │                     │                            │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Conv_0    │ Conv    │ float32[1,28,28,1]   │ float32[1,28,28,32] │ bias: float32[32]          │
+│           │         │                      │                     │ kernel: float32[3,3,1,32]  │
+│           │         │                      │                     │                            │
+│           │         │                      │                     │ 320 (1.3 KB)               │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Conv_1    │ Conv    │ float32[1,28,28,32]  │ float32[1,28,28,64] │ bias: float32[64]          │
+│           │         │                      │                     │ kernel: float32[3,3,32,64] │
+│           │         │                      │                     │                            │
+│           │         │                      │                     │ 18,496 (74.0 KB)           │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Dropout_0 │ Dropout │ float32[1,14,14,64]  │ float32[1,14,14,64] │                            │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Dense_0   │ Dense   │ float32[1,12544]     │ float32[1,256]      │ bias: float32[256]         │
+│           │         │                      │                     │ kernel: float32[12544,256] │
+│           │         │                      │                     │                            │
+│           │         │                      │                     │ 3,211,520 (12.8 MB)        │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Dropout_1 │ Dropout │ float32[1,256]       │ float32[1,256]      │                            │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│ Dense_1   │ Dense   │ float32[1,256]       │ float32[1,10]       │ bias: float32[10]          │
+│           │         │                      │                     │ kernel: float32[256,10]    │
+│           │         │                      │                     │                            │
+│           │         │                      │                     │ 2,570 (10.3 KB)            │
+├───────────┼─────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
+│           │         │                      │               Total │ 3,232,906 (12.9 MB)        │
+└───────────┴─────────┴──────────────────────┴─────────────────────┴────────────────────────────┘
+
+                              Total Parameters: 3,232,906 (12.9 MB)
+
+epoch:   1
+  training:
+    loss=0.8327  accuracy=73.04
+    loss=0.3174  accuracy=89.98
+    ...
+    loss=0.0971  accuracy=97.10
+    loss=0.1057  accuracy=96.94
+  validation:
+    loss=0.0539  accuracy=98.20
+epoch:   2
+  training:
+    loss=0.0978  accuracy=97.09
+    loss=0.0816  accuracy=97.52
+    ...
+    loss=0.0716  accuracy=97.96
+    loss=0.0722  accuracy=97.72
+  validation:
+    loss=0.0409  accuracy=98.64
+epoch:   3
+  training:
+    loss=0.0618  accuracy=98.24
+    loss=0.0603  accuracy=98.20
+    ...
